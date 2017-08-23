@@ -54,7 +54,11 @@ namespace Project_Auction_House_Client {
         public void Loop() {
             while (true) {
                 string message = sr.ReadLine();
-                ServerText.Dispatcher.Invoke(new UpdateText(UpdateText2), message);
+
+                if (message != "")
+                {
+                    ServerText.Dispatcher.Invoke(new UpdateText(UpdateText2), message);
+                }
                 continue;
                 switch (message) {
                     case "test":
