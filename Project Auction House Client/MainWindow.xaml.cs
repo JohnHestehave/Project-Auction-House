@@ -26,7 +26,7 @@ namespace Project_Auction_House_Client
 		{
 			InitializeComponent();
 		}
-
+        
 		private void Login(object sender, RoutedEventArgs e)
 		{
 			string ip = IPTextBox.Text;
@@ -43,14 +43,15 @@ namespace Project_Auction_House_Client
 					{
 						c.Show();
 						c.Start();
-						this.Close();
-						break;
+						//this.Close();
 					}
 				}
 			}else
 			{
 				MessageBox.Show("Wrong IP");
-			}
-		}
+            }
+            
+
+        }
 	}
 }
