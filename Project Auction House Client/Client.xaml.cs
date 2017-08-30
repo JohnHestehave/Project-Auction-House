@@ -93,7 +93,7 @@ namespace Project_Auction_House_Client {
         }
 
         public delegate void UpdateText(string message);
-        public void UpdateText2(string message) {
+        public void UpdateTextBoxes(string message) {
             string[] messages = message.Split('¤');
 
             // IF IP'S
@@ -108,7 +108,7 @@ namespace Project_Auction_House_Client {
                         Members += _message + "\n";
                     }
                 }
-            } else {
+            } else { // Anvend en TryParse til at teste om den første er et tal.
                 HighBid = messages[0];
                 try {
                     ItemName = messages[1];
@@ -120,7 +120,7 @@ namespace Project_Auction_House_Client {
             while (running) {
                 string message = sr.ReadLine();
                 if (message != "") {
-                    ServerText.Dispatcher.Invoke(new UpdateText(UpdateText2), message);
+                    ServerText.Dispatcher.Invoke(new UpdateText(UpdateTextBoxes), message);
                 }
             }
         }
