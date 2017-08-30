@@ -82,12 +82,22 @@ namespace Project_Auction_House_Server {
                     if (message != "" && message != "EXIT")
                     {
                         BidLog.Add(message);
-                        TestPrint();
+                        //TestPrint();
                         conversion = int.TryParse(message, out BidAttempt);
                     }
-                    if (BidAttempt > Bid)
+                    if (BidAttempt < 0)
+                    {
+                        write.WriteLine("Can't Bid under Zero!");
+                    }
+                    else if (BidAttempt <= Bid)
+                    {
+                        int minimumBid = Bid + 1;
+                        write.WriteLine("Too low of a Bid, Needs to be atleast " + minimumBid);
+                    }
+                    else if (BidAttempt > Bid)
                     {
                         Bid = BidAttempt;
+                        write.WriteLine("You Are the Highest Bidder");
                         Broadcast();
                     }
                     if (!client.Connected || message == "EXIT")
