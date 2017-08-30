@@ -73,32 +73,49 @@ namespace Project_Auction_House_Server {
 
             while (true)
             {
-                string message = read.ReadLine();
-                bool conversion;
-                int BidAttempt = 0;
+                try
+                {
+                    string message = read.ReadLine();
+                    bool conversion;
+                    int BidAttempt = 0;
 
-                if (message != "" && message != "EXIT")
-                {
-                    BidLog.Add(message);
-                    TestPrint();
-                    conversion = int.TryParse(message, out BidAttempt);
+                    if (message != "" && message != "EXIT")
+                    {
+                        BidLog.Add(message);
+                        TestPrint();
+                        conversion = int.TryParse(message, out BidAttempt);
+                    }
+                    if (BidAttempt > Bid)
+                    {
+                        Bid = BidAttempt;
+                        Broadcast();
+                    }
+                    if (!client.Connected || message == "EXIT")
+                    {
+                        if (message == "EXIT")
+                        {
+                            
+                        }
+                        ClientIPS.Remove(client);
+                        Console.WriteLine(IPEP + " - Disconnected");
+                        Console.WriteLine(ClientIPS.Count + " Client(s) Connected");
+                        break;
+                    }
                 }
-                if (BidAttempt > Bid)
+                catch (Exception e)
                 {
-                    Bid = BidAttempt;
-                    Broadcast();
-                }
-                if (!client.Connected || message == "EXIT")
-                {
-                    if (message == "EXIT")
+                    if (e.GetType() == typeof(IOException))
                     {
                         client.Close();
+                        ClientIPS.Remove(client);
+                        Console.WriteLine(IPEP + " - Terminated");
+                        Console.WriteLine(ClientIPS.Count + " Client(s) Connected");
+                        break;
                     }
-                    ClientIPS.Remove(client);
-                    Console.WriteLine(IPEP + " - Disconnected");
-                    Console.WriteLine(ClientIPS.Count + " Client(s) Connected");
-                    break;
+                    
                 }
+
+                
             }
         }
 
