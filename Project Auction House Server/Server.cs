@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Project_Auction_House_Server {
-    class Program {
+namespace Project_Auction_House_Server { // Split different Methods out to different Classes, to improve Design and readability.
+    class Server {
 
         // ¤ is used only to places meant to be split!
 
@@ -19,10 +19,10 @@ namespace Project_Auction_House_Server {
 
         int AuctionItem = 0;
 
-        int Bid = 0;
+        int Bid = 0; // add locks to all places that tries to change this
 
         static void Main(string[] args) {
-            Program Run = new Program();
+            Server Run = new Server();
             Run.Run();
         }
 
@@ -53,7 +53,7 @@ namespace Project_Auction_House_Server {
             Console.WriteLine("Offline");
             Console.ReadKey();
         }
-        private void ClientConnection(object obj) {
+        private void ClientConnection(object obj) { // ClientHandler Class
             var client = (TcpClient)obj;
             
 
@@ -163,7 +163,6 @@ namespace Project_Auction_House_Server {
             StreamWriter write = new StreamWriter(client.GetStream());
             write.AutoFlush = true;
             Console.WriteLine("Sending Current Auction to New Client");
-            //hardcoded item "0" intil vi har flere auctions
             write.WriteLine(items[AuctionItem].startPrice.ToString() + "¤" + items[AuctionItem].name.ToString() + "¤" + items[AuctionItem].description.ToString());
         }
     }
