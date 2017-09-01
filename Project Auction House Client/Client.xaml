@@ -6,17 +6,19 @@
         xmlns:local="clr-namespace:Project_Auction_House_Client"
         mc:Ignorable="d"
         Title="Client" Height="313" Width="500">
-	<Grid>
+	<Grid FocusManager.FocusedElement="{Binding ElementName=BidTextBox}">
 		<Label x:Name="AuctionItemNameLabel" Content="Auction Item Name:" HorizontalAlignment="Left" Margin="29,29,0,0" VerticalAlignment="Top" Width="140"/>
 		<Label x:Name="CurrentHighestBiddingLabel" Content="Current Highest Bidding:" HorizontalAlignment="Left" Margin="29,60,0,0" VerticalAlignment="Top"/>
-		<TextBox x:Name="BidTextBox" HorizontalAlignment="Left" Height="23" Margin="64,99,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="Bid_EnterKey"/>
+		<TextBox x:Name="BidTextBox" HorizontalAlignment="Left" Height="23" Margin="64,99,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" KeyDown="Bid_EnterKey" TabIndex="1"/>
 		<Label x:Name="BidLabel" Content="Bid:" HorizontalAlignment="Left" Margin="29,96,0,0" VerticalAlignment="Top" Width="30"/>
 		<Label x:Name="AuctionItemNameLabelText" Content="{Binding Path=ItemName}" HorizontalAlignment="Left" Margin="192,29,0,0" VerticalAlignment="Top" Width="89"/>
 		<Label x:Name="CurrentHighestBiddingLabelPrice" Content="{Binding Path=HighBid}" HorizontalAlignment="Left" Margin="192,60,0,0" VerticalAlignment="Top" Width="89"/>
 		<Button x:Name="BidButton" Click="BidButton_Click" Content="Bid" HorizontalAlignment="Left" Margin="192,99,0,0" VerticalAlignment="Top" Width="89" Height="23"/>
         <Button x:Name="Disconnect" Click="Disconnect_Click" Content="Disconnect" HorizontalAlignment="Left" Margin="192,146,0,0" VerticalAlignment="Top" Width="89" Height="23"/>
         <TextBlock x:Name="ServerText" Text="{Binding Path=Members}" HorizontalAlignment="Left" Margin="311,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="262" Width="171"/>
-		<TextBlock x:Name="ServerAnnouncements" HorizontalAlignment="Left" Margin="29,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="87" Width="277"/>
+		<ScrollViewer x:Name="Scroller" VerticalScrollBarVisibility="Auto" Height="87" HorizontalAlignment="Left" Margin="29,185,0,0" >
+			<TextBlock x:Name="ServerAnnouncements" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="277"/>
+		</ScrollViewer>
 
 	</Grid>
 </Window>
