@@ -41,8 +41,10 @@ namespace Project_Auction_House_Server { // Split different Methods out to diffe
             Repo.Items.Add(new Item("Uran", 9500 , "4g"));
             Repo.Items.Add(new Item("Garden fertilizer", 90 , "7.5kg"));
 
+            Repo.Lock.WaitOne();
             Repo.Bid = Repo.Items[Repo.AuctionItem].startPrice;
-            
+            Repo.Lock.ReleaseMutex();
+
             TcpListener Server = new TcpListener(IPAddress.Any, 12345);
             TcpClient Client;
             Server.Start();

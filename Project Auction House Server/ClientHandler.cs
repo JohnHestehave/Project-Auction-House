@@ -87,6 +87,7 @@ namespace Project_Auction_House_Server
                         Repo.BidLog.Add(message);
                         conversion = int.TryParse(message, out BidAttempt);
                     }
+                    Repo.Lock.WaitOne();
                     if (BidAttempt < 0)
                     {
                         write.WriteLine("ERROR¤" + "Can't Bid under Zero!");
@@ -102,6 +103,7 @@ namespace Project_Auction_House_Server
                         Repo.Bid = BidAttempt;
                         write.WriteLine("MESSAGE¤" + "You Are the Highest Bidder");
                     }
+                    Repo.Lock.ReleaseMutex();
                     if (!client.Connected || message == "EXIT")
                     {
                         Repo.Clients.Remove(this);
