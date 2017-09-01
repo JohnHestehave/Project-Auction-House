@@ -142,8 +142,10 @@ namespace Project_Auction_House_Client {
 					ServerAnnouncements.Text += "Unknown data received:\n" + code+"\n";
 					break;
 			}
+			Scroller.ScrollToBottom();
+			
 
-
+			/*
 			return;
             // IF IP'S
             Regex regex = new Regex(@"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}");
@@ -163,8 +165,11 @@ namespace Project_Auction_House_Client {
                     ItemName = messages[1];
                 } catch (Exception) {
                 }
+				
             }
+			*/
         }
+		
         public void Loop() {
             while (running) {
                 string message = sr.ReadLine();
@@ -186,7 +191,11 @@ namespace Project_Auction_House_Client {
 		private void Bid()
 		{
 			string bid = BidTextBox.Text;
-			sw.WriteLine(bid);
+			int v;
+			if (int.TryParse(bid, out v))
+			{
+				sw.WriteLine(v);
+			}
 		}
 
 		private void Bid_EnterKey(object sender, KeyEventArgs e)
