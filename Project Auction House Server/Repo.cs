@@ -35,11 +35,11 @@ namespace Project_Auction_House_Server
             {
                 if (WinningClient != null)
                 {
-                    client.Writer().WriteLine("BID" + Bid + "¤" + WinningClient.IP());
+                    client.Writer().WriteLine("BID¤" + Bid + "¤" + WinningClient.IP());
                 }
                 else
                 {
-                    client.Writer().WriteLine("BID" + Bid + "¤" + "No one is currently Winning");
+                    client.Writer().WriteLine("BID¤" + Bid + "¤" + "No one is currently Winning");
                 }
             }
         }
