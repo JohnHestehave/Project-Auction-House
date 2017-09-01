@@ -98,6 +98,7 @@ namespace Project_Auction_House_Server
                     }
                     else if (BidAttempt > Repo.Bid)
                     {
+                        Repo.WinningClient = this;
                         Repo.Bid = BidAttempt;
                         write.WriteLine("MESSAGE¤" + "You Are the Highest Bidder");
                     }
