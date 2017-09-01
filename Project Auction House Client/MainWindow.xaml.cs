@@ -27,7 +27,12 @@ namespace Project_Auction_House_Client
 			InitializeComponent();
 		}
         
-		private void Login(object sender, RoutedEventArgs e)
+
+		private void Login_Click(object sender, RoutedEventArgs e)
+		{
+			Login();
+		}
+		private void Login()
 		{
 			string ip = IPTextBox.Text;
 
@@ -43,7 +48,7 @@ namespace Project_Auction_House_Client
 					{
 						c.Show();
 						c.Start();
-						//this.Close();
+						this.Hide();
 					}
 				}
 			}else
@@ -53,5 +58,12 @@ namespace Project_Auction_House_Client
             
 
         }
+		private void Login_EnterKey(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				Login();
+			}
+		}
 	}
 }
