@@ -40,14 +40,16 @@ namespace Project_Auction_House_Server
             Console.WriteLine("Sending Current Auction to New Client");
             if (Repo.WinningClient != null)
             {
-                write.WriteLine(Repo.Bid.ToString() + "¤"
+                write.WriteLine("ITEM¤"
+                + Repo.Bid.ToString() + "¤"
                 + Repo.Items[Repo.AuctionItem].name.ToString() + "¤"
                 + Repo.Items[Repo.AuctionItem].description.ToString() + "¤"
                 + Repo.WinningClient.IP());
             }
             else
             {
-                write.WriteLine(Repo.Bid.ToString() + "¤"
+                write.WriteLine("ITEM¤"
+                + Repo.Bid.ToString() + "¤"
                 + Repo.Items[Repo.AuctionItem].name.ToString() + "¤"
                 + Repo.Items[Repo.AuctionItem].description.ToString() + "¤"
                 + "No one is currently Winning");
@@ -56,7 +58,7 @@ namespace Project_Auction_House_Server
 
         private void ShowBidders()
         {
-            string message = "";
+            string message = "IP¤";
             foreach (var client in Repo.Clients)
             {
                 message += client.IP().ToString() + "¤";
@@ -87,17 +89,17 @@ namespace Project_Auction_House_Server
                     }
                     if (BidAttempt < 0)
                     {
-                        write.WriteLine("Can't Bid under Zero!");
+                        write.WriteLine("ERROR¤" + "Can't Bid under Zero!");
                     }
                     else if (BidAttempt <= Repo.Bid)
                     {
                         int minimumBid = Repo.Bid + 1;
-                        write.WriteLine("Too low of a Bid, Needs to be atleast " + minimumBid);
+                        write.WriteLine("ERROR¤" + "Too low of a Bid, Needs to be atleast " + minimumBid);
                     }
                     else if (BidAttempt > Repo.Bid)
                     {
                         Repo.Bid = BidAttempt;
-                        write.WriteLine("You Are the Highest Bidder");
+                        write.WriteLine("MESSAGE¤" + "You Are the Highest Bidder");
                     }
                     if (!client.Connected || message == "EXIT")
                     {

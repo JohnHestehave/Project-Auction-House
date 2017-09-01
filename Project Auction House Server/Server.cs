@@ -13,7 +13,14 @@ namespace Project_Auction_House_Server { // Split different Methods out to diffe
      
     public class Server {
 
-        // ¤ is used only to places meant to be split!
+        /* ¤ is used only to places meant to be split!
+         *
+         * ITEM - Infront of text that is refering to a item
+         * BID - Infront of text that is refering to a bid change.
+         * MESSAGE - Infront of text that is refering to a simple message from the server to the client(s).
+         * IP - Infront of text that is refering to a IP.
+         * ERROR - Infront of text that is refering to a error.
+         */
 
         static void Main(string[] args) {
             Server Run = new Server();
