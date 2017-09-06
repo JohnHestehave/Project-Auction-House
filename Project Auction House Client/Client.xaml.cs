@@ -30,6 +30,8 @@ namespace Project_Auction_House_Client {
         StreamReader sr;
         StreamWriter sw;
 
+		bool CanBid = false;
+
         private bool running = true;
 
         private string _members;
@@ -137,9 +139,21 @@ namespace Project_Auction_House_Client {
 				case "ITEM": // Item details
 					ItemName = messages[2];
 					HighBid = messages[1];
+					CanBid = true;
 					break;
 				case "MESSAGE":
 					ServerAnnouncements.Text += messages[1];
+					break;
+				case "TIMER":
+					BidTimer.FontSize = 50;
+					BidTimer.Content = "Time left: "+messages[1];
+					break;
+				case "SOLD":
+					BidTimer.FontSize = 30;
+					BidTimer.Content = "SOLD:";
+					BidTimer.Content += "To: "+messages[1];
+					BidTimer.Content += "For: "+messages[2];
+					CanBid = false;
 					break;
 				default:
 					ServerAnnouncements.Text += "Unknown data received:\n" + code+"\n";
@@ -176,7 +190,7 @@ namespace Project_Auction_House_Client {
         public void Loop() {
             while (running) {
                 string message = sr.ReadLine();
-                if (message != "") {
+                if (message != ""  && message != null) {
                     Dispatcher.Invoke(new UpdateText(UpdateTextBoxes), message);
                 }
             }
@@ -193,6 +207,11 @@ namespace Project_Auction_House_Client {
         }
 		private void Bid()
 		{
+			if (!CanBid)
+			{
+				MessageBox.Show("No auction active at the moment.");
+				return;
+			}
 			string bid = BidTextBox.Text;
 			int v;
 			if (int.TryParse(bid, out v))
