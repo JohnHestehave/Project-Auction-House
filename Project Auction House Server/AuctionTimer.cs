@@ -24,7 +24,6 @@ namespace Project_Auction_House_Server {
                             Repo.AuctionItem++;
                             Repo.Bid = Repo.Items[Repo.AuctionItem].startPrice;
                             Repo.Clients[0].SendFTInfo();
-                            //Start();
 
                         } else {
                             string message = "MESSAGE";
