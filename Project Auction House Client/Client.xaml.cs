@@ -138,6 +138,9 @@ namespace Project_Auction_House_Client {
 					ItemName = messages[2];
 					HighBid = messages[1];
 					break;
+				case "MESSAGE":
+					ServerAnnouncements.Text += messages[1];
+					break;
 				default:
 					ServerAnnouncements.Text += "Unknown data received:\n" + code+"\n";
 					break;
