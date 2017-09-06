@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace Project_Auction_House_Server
-{
+namespace Project_Auction_House_Server {
     public static class Repo
     {
         public static List<string> BidLog = new List<string>();
@@ -17,7 +12,7 @@ namespace Project_Auction_House_Server
         public static int AuctionItem = 0;
         private static int _bid = 0;
         public static ClientHandler WinningClient;
-        public static Mutex Lock;
+        public static Mutex Lock = new Mutex();
 
         public static int Bid {
             get { return _bid; }

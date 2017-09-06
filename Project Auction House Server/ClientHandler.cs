@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Project_Auction_House_Server
-{
-    public class ClientHandler
-    {
+namespace Project_Auction_House_Server {
+    public class ClientHandler {
         TcpClient client;
         StreamReader read;
         StreamWriter write;
         IPEndPoint IPEP;
+        
 
-        public ClientHandler(TcpClient client)
-        {
+        public ClientHandler(TcpClient client) {
             this.client = client;
             read = new StreamReader(client.GetStream());
             write = new StreamWriter(client.GetStream());
@@ -26,28 +20,22 @@ namespace Project_Auction_House_Server
             IPEP = (IPEndPoint)client.Client.RemoteEndPoint;
         }
 
-        internal IPEndPoint IP()
-        {
+        internal IPEndPoint IP() {
             return IPEP;
         }
-        internal StreamWriter Writer()
-        {
+        internal StreamWriter Writer() {
             return write;
         }
 
-        private void SendFTInfo()
-        {
+        public void SendFTInfo() {
             Console.WriteLine("Sending Current Auction to New Client");
-            if (Repo.WinningClient != null)
-            {
+            if (Repo.WinningClient != null) {
                 write.WriteLine("ITEM¤"
                 + Repo.Bid.ToString() + "¤"
                 + Repo.Items[Repo.AuctionItem].name.ToString() + "¤"
                 + Repo.Items[Repo.AuctionItem].description.ToString() + "¤"
                 + Repo.WinningClient.IP());
-            }
-            else
-            {
+            } else {
                 write.WriteLine("ITEM¤"
                 + Repo.Bid.ToString() + "¤"
                 + Repo.Items[Repo.AuctionItem].name.ToString() + "¤"
@@ -56,66 +44,54 @@ namespace Project_Auction_House_Server
             }
         }
 
-        private void ShowBidders()
-        {
+        private void ShowBidders() {
             string message = "IP¤";
-            foreach (var client in Repo.Clients)
-            {
+            foreach (var client in Repo.Clients) {
                 message += client.IP().ToString() + "¤";
             }
 
-            foreach (var client in Repo.Clients)
-            {
+            foreach (var client in Repo.Clients) {
                 client.Writer().WriteLine(message);
             }
         }
-        internal void Handle()
-        {
+        internal void Handle() {
             ShowBidders();
             SendFTInfo();
 
-            while (true)
-            {
-                try
-                {
+            while (true) {
+                try {
                     string message = read.ReadLine();
                     bool conversion;
                     int BidAttempt = 0;
 
-                    if (message != "" && message != "EXIT")
-                    {
+                    if (message != "" && message != "EXIT") {
                         Repo.BidLog.Add(message);
                         conversion = int.TryParse(message, out BidAttempt);
                     }
                     Repo.Lock.WaitOne();
-                    if (BidAttempt < 0)
-                    {
+                    if (BidAttempt < 0) {
                         write.WriteLine("ERROR¤" + "Can't Bid under Zero!");
-                    }
-                    else if (BidAttempt <= Repo.Bid)
-                    {
+                    } else if (BidAttempt <= Repo.Bid) {
                         int minimumBid = Repo.Bid + 1;
                         write.WriteLine("ERROR¤" + "Too low of a Bid, Needs to be atleast " + minimumBid);
-                    }
-                    else if (BidAttempt > Repo.Bid)
-                    {
+                    } else if (BidAttempt > Repo.Bid) {
                         Repo.WinningClient = this;
                         Repo.Bid = BidAttempt;
+                        if (AuctionTimer.Timer < AuctionTimer.LastChance)
+                        {
+                            AuctionTimer.Timer = AuctionTimer.LastChance;
+                        }
                         write.WriteLine("MESSAGE¤" + "You Are the Highest Bidder");
                     }
                     Repo.Lock.ReleaseMutex();
-                    if (!client.Connected || message == "EXIT")
-                    {
+                    if (!client.Connected || message == "EXIT") {
                         Repo.Clients.Remove(this);
                         Console.WriteLine(IPEP + " - Disconnected");
                         Console.WriteLine(Repo.Clients.Count + " Client(s) Connected");
                         break;
                     }
-                }
-                catch (Exception e)
-                {
-                    if (e.GetType() == typeof(IOException))
-                    {
+                } catch (Exception e) {
+                    if (e.GetType() == typeof(IOException)) {
                         client.Close();
                         Repo.Clients.Remove(this);
                         Console.WriteLine(IPEP + " - Terminated");

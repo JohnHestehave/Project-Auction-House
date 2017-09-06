@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Project_Auction_House_Server { // Split different Methods out to different Classes, to improve Design and readability.
 
@@ -49,12 +44,15 @@ namespace Project_Auction_House_Server { // Split different Methods out to diffe
             TcpClient Client;
             Server.Start();
 
+            //Countdown for item sale
+            Thread thread = new Thread(AuctionTimer.Start);
+            thread.Start();
+
+            //listening for new customers
             while (true) {
                 Client = Server.AcceptTcpClient();
                 ThreadPool.QueueUserWorkItem(ClientConnection, Client);
             }
-            Console.WriteLine("Offline");
-            Console.ReadKey();
         }
         private void ClientConnection(object obj) { // Refactor into a ClientHandler Class
             var client = (TcpClient)obj;
